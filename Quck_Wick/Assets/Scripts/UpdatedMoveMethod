@@ -1,0 +1,8 @@
+    private void Move()
+    {
+        float controlThrow = Input.GetAxis("Horizontal");
+
+        Vector2 playerVelocity = new Vector2(controlThrow * moveSpeed, myRigidBody.velocity.y);
+
+        myRigidBody.velocity = playerVelocity;
+    }
