@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     public float linearDrag = 4f;
     public float gravity = 1f;
     public float fallMultiplier = 5f;
+    public float glideGravity = .1f;
 
 
     private bool lastDir;
@@ -59,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
         }
         
         FlipSprite();
-        
+        Glide();
     }
 
      void FixedUpdate()
@@ -209,7 +210,23 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void Glide()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
 
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            gravity = glideGravity;
+        }
+
+        if(Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            gravity = 1f;
+        }
+    }
     private void OnDrawGizmos()
     {
         // Drawing a red line from center origin of GameObject to visually represent the RayCast
