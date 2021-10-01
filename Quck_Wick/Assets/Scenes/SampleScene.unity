@@ -1928,6 +1928,7 @@ GameObject:
   - component: {fileID: 1179409082}
   - component: {fileID: 1179409081}
   - component: {fileID: 1179409080}
+  - component: {fileID: 1179409083}
   m_Layer: 9
   m_Name: CandleGuy
   m_TagString: Player
@@ -2076,6 +2077,21 @@ MonoBehaviour:
   gravity: 1
   fallMultiplier: 7
   glideGravity: 0.1
+--- !u!114 &1179409083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179409077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 711f40789e69e8b40b77caa334185432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  candleCounter: 10
+  byBonfire: 0
+  player: {fileID: 1179409077}
 --- !u!1 &1220200848
 GameObject:
   m_ObjectHideFlags: 0

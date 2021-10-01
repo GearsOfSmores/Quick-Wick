@@ -212,6 +212,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Glide()
     {
+        //Current bugs/issues:
+        //Player can hold down the glide button and moon jump
+        //Rapidly tapping the glide button allows the player to glide for a little longer than intended, due to rapidly setting y velocity to 0. Can probably be fixed by implementing a brief timer between uses.
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
