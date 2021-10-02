@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 colliderOffset;
     public Vector3 leftOffset;
     public Vector3 rightOffset;
+    public bool isPulling = false;
 
     [Header("Components")]
     private SpriteRenderer sr;
@@ -33,12 +34,17 @@ public class PlayerMovement : MonoBehaviour
     public float linearDrag = 4f;
     public float gravity = 1f;
     public float fallMultiplier = 5f;
-    public float glideGravity = .1f;
 
 
     private bool lastDir;
     private bool inAir = false;
+    private GameObject box;
+    private float xPos;
 
+
+    [Header("Moveable Objects")]
+    public float distance = 1f;
+    public LayerMask boxMask;
 
     Rigidbody2D myRigidBody;
     Collider2D myCollider2D;
@@ -50,50 +56,51 @@ public class PlayerMovement : MonoBehaviour
         myCollider2D = GetComponent<Collider2D>();
     }
 
-     void Update()
+    void Update()
     {
-        
+        FlipSprite();
         // Adding a small delay to the jump, that enhances the feel of the jump when in game
         if (Input.GetButtonDown("Jump"))
         {
             jumpTimer = Time.time + jumpDelay;
         }
-        
-        FlipSprite();
-        Glide();
+        //Debug.Log("This is x: " + xPos);
+        //FlipSprite();
     }
 
-     void FixedUpdate()
+    void FixedUpdate()
     {
         if (jumpTimer > Time.time)
         {
+            //Debug.Log("This is x: " + transform.localScale.x);
             Jump();
         }
         modifyPhysics();
         Move(direction.x);
     }
 
-  
+
     private void Jump()
     {
         //To stop character from jumping in air
-        if (onGround)
+        // Made change to if he is pulling something then he cant jump - Shane
+        if (onGround && !isPulling)
         {
             //Create a new Vector and addForce vertically to the character
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
-            
+
             // resetting the jumpTimer to prevent multiple jumps
             jumpTimer = 0;
 
-            StartCoroutine(JumpSqueeze(0.5f, 1.2f, 0.1f));
+            StartCoroutine(JumpSqueeze(/*0.5f*/transform.localScale.x - .5f, 1.2f, 0.1f));
         }
     }
 
     // Code for moving the character left and right
     private void Move(float horizontal)
     {
-        
+
         direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
         // Chekcing onGround with boolean and using raycast line to know when character is on ground
@@ -111,37 +118,92 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
         }
 
-       
+
         if (!wasOnGround && onGround)
         {
-            StartCoroutine(JumpSqueeze(1.25f, 0.8f, 0.05f));
+            // Changed the x position to take the current x position and add to it - Shane
+            StartCoroutine(JumpSqueeze(transform.localScale.x + .25f, 0.8f, 0.05f));
         }
 
     }
 
     // To flip the character when they are going right or left
+    // Changed it so that the player is being flipped by the scale instead of the sprite renderer - Shane
     private void FlipSprite()
     {
-        // Uses the sprite renderer to check if the player is going right or left
-        // check the flip check in the sprite renderer
-        if (Input.GetAxis("Horizontal") < 0)
+
+        // Had to check for if the key was being pressed down twice in the code for there to be no errors when 
+        // grabbing an item. Once in here and again in the pull method
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            sr.flipX = true;
-            lastDir = true;
+            isPulling = Pull();
         }
-        else if (Input.GetAxis("Horizontal") > 0)
+        else if (Input.GetKeyUp(KeyCode.E))
         {
-            sr.flipX = false;
-            lastDir = false;
+            isPulling = Pull();
         }
+
+        // If the character is not pulling or pushing then he will keep turning left and right like normal
+        if (!isPulling)
+        {
+            if (Input.GetAxis("Horizontal") < 0)
+            {
+                transform.localScale = new Vector3(-1, 1, 1);
+            }
+            else if (Input.GetAxis("Horizontal") > 0)
+            {
+                transform.localScale = new Vector3(1, 1, 1);
+            }
+        }
+
+        // If he is holding something he will not turn left or right
         else
         {
-            sr.flipX = lastDir;
+            transform.localScale = new Vector3(transform.localScale.x, 1, 1);
         }
+
     }
 
 
-     //This method will create a 'better feeling' jump that 
+    // This method will allow the player to push and pull and object box mask in the inspector will need to have
+    // everything selected except for player
+    private bool Pull()
+    {
+        Physics2D.queriesStartInColliders = false;
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, distance, boxMask);
+
+        // If there is no object if front of you it wont try and grab
+        if (hit.collider != null)
+        {
+            // If the object is tagged Grabbable in the inspector and not null and pressing e then grab the item
+            // Objects that need to be grabbed will have to have component Fixed Joint 2D and it will have to be
+            // inactive before starting. If active player will be stuck to the object
+            if (hit.collider != null && hit.collider.gameObject.tag == "Grabbable" && Input.GetKeyDown(KeyCode.E))
+            {
+                box = hit.collider.gameObject;
+                box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
+                box.GetComponent<FixedJoint2D>().enabled = true;
+                box.GetComponent<PullingBox>().pushing = true;
+                return true;
+            }
+
+            // Once the e key is released let go of the object
+            else if (Input.GetKeyUp(KeyCode.E))
+            {
+                box.GetComponent<FixedJoint2D>().enabled = false;
+                box.GetComponent<PullingBox>().pushing = false;
+                return false;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+
+    //This method will create a 'better feeling' jump that 
     void modifyPhysics()
     {
         bool changingDirections = (direction.x > 0 && rb.velocity.x < 0) || (direction.x < 0 && rb.velocity.x > 0);
@@ -188,7 +250,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator JumpSqueeze(float xSqueeze, float ySqueeze, float seconds)
     {
         // tracks current localscale of sr size
-        Vector3 originalSize = Vector3.one;
+        Vector3 originalSize = transform.localScale;
         // create and define new size
         Vector3 newSize = new Vector3(xSqueeze, ySqueeze, originalSize.z);
 
@@ -210,30 +272,15 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void Glide()
-    {
-        //Current bugs/issues:
-        //Player can hold down the glide button and moon jump
-        //Rapidly tapping the glide button allows the player to glide for a little longer than intended, due to rapidly setting y velocity to 0. Can probably be fixed by implementing a brief timer between uses.
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-        }
 
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            gravity = glideGravity;
-        }
-
-        if(Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            gravity = 1f;
-        }
-    }
     private void OnDrawGizmos()
     {
         // Drawing a red line from center origin of GameObject to visually represent the RayCast
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position + colliderOffset, transform.position + colliderOffset + Vector3.down * groundLength);
+
+        // Drawing a green line to show where the player can grab distance can be changed in the inspector
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * distance);
     }
 }

@@ -2134,6 +2134,7 @@ MonoBehaviour:
   colliderOffset: {x: 0, y: 0.03, z: 0}
   leftOffset: {x: 0, y: 0, z: 0}
   rightOffset: {x: 0, y: 0, z: 0}
+  isPulling: 0
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -2142,7 +2143,10 @@ MonoBehaviour:
   linearDrag: 10
   gravity: 1
   fallMultiplier: 7
-  glideGravity: 0.1
+  distance: 1
+  boxMask:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &1179409083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2607,9 +2611,11 @@ GameObject:
   - component: {fileID: 1830589483}
   - component: {fileID: 1830589482}
   - component: {fileID: 1830589481}
+  - component: {fileID: 1830589486}
+  - component: {fileID: 1830589485}
   m_Layer: 8
   m_Name: Crate
-  m_TagString: Untagged
+  m_TagString: Grabbable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2725,6 +2731,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!233 &1830589485
+HingeJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830589480}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 1
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: -5.27, y: -6.65}
+  m_UseMotor: 0
+  m_Motor:
+    m_MotorSpeed: 0
+    m_MaximumMotorForce: 10000
+  m_UseLimits: 0
+  m_AngleLimits:
+    m_LowerAngle: 0
+    m_UpperAngle: 359
+--- !u!114 &1830589486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1830589480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1bd3e3da2ce22b4ebe9d0e946e56d18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseMass: 0
+  moveableMass: 0
+  pushing: 0
+  lastPos: {x: 0, y: 0, z: 0}
+  mode: 0
+  collid: 0
 --- !u!1 &1866269926
 GameObject:
   m_ObjectHideFlags: 0
