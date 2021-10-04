@@ -16,6 +16,7 @@ public class Rope : MonoBehaviour
         if(RD.destroyRope == true)
         {
             Destroy(gameObject);
+            BH.SetActive(false);
         }
 
     }
