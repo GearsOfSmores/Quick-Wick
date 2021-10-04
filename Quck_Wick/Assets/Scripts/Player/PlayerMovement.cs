@@ -238,10 +238,10 @@ public class PlayerMovement : MonoBehaviour
             }
 
             // If holding down the jump button, before reaching the peak of the jump, gravity is divided by 2.
-            // Resulting in a higher jump
-            else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
+            ///Resulting in a higher jump
+           else if (rb.velocity.y > 0 && Input.GetButton("Jump") || !Input.GetButton("Jump"))
             {
-                rb.gravityScale = gravity * (fallMultiplier / 2);
+               rb.gravityScale = gravity * (fallMultiplier / 2);
             }
         }
     }
