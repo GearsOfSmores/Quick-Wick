@@ -50,8 +50,10 @@ public class PlayerMovement : MonoBehaviour
     Collider2D myCollider2D;
 
     [Header("Collison Force")]
-    private float knockback = 10f;
-    private float knockbackAir = 5f;
+    public float knockback = 10f;
+    public float knockbackLength;
+    public float knockbackAir = 5f;
+    public float knockbackCount = 0f;
 
     private void Start()
     {
@@ -112,10 +114,20 @@ public class PlayerMovement : MonoBehaviour
         onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer);
 
         // Multiplying the horizontal input by a variable we can change in the inspector
-        rb.AddForce(Vector2.right * horizontal * moveSpeed);
+        if (knockbackCount <= 0)
+        {
+            rb.AddForce(Vector2.right * horizontal * moveSpeed);
+        }
+        else
+        {
+            rb.velocity = new Vector2(-knockback, knockback);
+            knockbackCount -= Time.deltaTime;
+        }
+        
 
         // This result is a feeling of the character gaining momentum overtime
         // If current velocity is greater than our maxSpeed
+
         if (Mathf.Abs(rb.velocity.x) > maxSpeed)
         {
             // return the current velocity as 1 and multiply it by maxSpeed, clamping the speed.
@@ -288,12 +300,12 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * distance);
     }
 
-   // private void OnTriggerEnter2D(Collider2D collision)
-   // {
-       // if (collision.gameObject.tag == "RainHit")
-       // {
-        //    rb.AddForce(Vector2.left * knockback);
-        //    rb.AddForce(Vector2.up * knockbackAir);
-        //}
-    //}
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "RainHit")
+        {
+            
+           
+        }
+    }
 }

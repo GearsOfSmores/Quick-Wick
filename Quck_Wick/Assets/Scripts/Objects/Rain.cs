@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Rain : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool rainHit;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter2D(Collider2D collison)
     {
-        
+        if (collison.gameObject.tag == "Player")
+        {
+            var player = collison.GetComponent<PlayerMovement>();
+            player.knockbackCount = player.knockbackLength;
+        }
     }
 }
