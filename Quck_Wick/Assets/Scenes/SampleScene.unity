@@ -7164,6 +7164,7 @@ GameObject:
   - component: {fileID: 1179409080}
   - component: {fileID: 1179409084}
   - component: {fileID: 1179409085}
+  - component: {fileID: 1179409086}
   m_Layer: 10
   m_Name: CandleGuy
   m_TagString: Player
@@ -7310,6 +7311,7 @@ MonoBehaviour:
   linearDrag: 6
   gravity: 1
   fallMultiplier: 10
+  glideGravity: 0.1
   distance: 1
   boxMask:
     serializedVersion: 2
@@ -7318,6 +7320,7 @@ MonoBehaviour:
   knockbackLength: 0.1
   knockbackAir: 5
   knockbackCount: 0
+  playerAnimator: {fileID: 1179409086}
 --- !u!114 &1179409083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7373,6 +7376,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rainHit: 0
+--- !u!95 &1179409086
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1179409077}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cd15d548965f8e541b0743cd2ad95c27, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1186179605
 GameObject:
   m_ObjectHideFlags: 0

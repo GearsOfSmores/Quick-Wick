@@ -55,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
     public float knockbackLength;
     public float knockbackAir = 5f;
     public float knockbackCount = 0f;
+    
+    public Animator playerAnimator;
 
     private void Start()
     {
@@ -303,11 +305,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             gravity = glideGravity;
+            playerAnimator.SetBool("gliding", true);
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             gravity = 1f;
+            playerAnimator.SetBool("gliding", false);
         }
     }
 
