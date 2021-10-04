@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     public float linearDrag = 4f;
     public float gravity = 1f;
     public float fallMultiplier = 5f;
+    public float glideGravity = .1f;
 
 
     private bool lastDir;
@@ -72,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
         }
         //Debug.Log("This is x: " + xPos);
         //FlipSprite();
+        Glide();
     }
 
     void FixedUpdate()
@@ -286,6 +288,27 @@ public class PlayerMovement : MonoBehaviour
             yield return null;
         }
 
+    }
+
+    private void Glide()
+    {
+        //Current bugs/issues:
+        //Player can hold down the glide button and moon jump
+        //Rapidly tapping the glide button allows the player to glide for a little longer than intended, due to rapidly setting y velocity to 0. Can probably be fixed by implementing a brief timer between uses.
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            gravity = glideGravity;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            gravity = 1f;
+        }
     }
 
 
