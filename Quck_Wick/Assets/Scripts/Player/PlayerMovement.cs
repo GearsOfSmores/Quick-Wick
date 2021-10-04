@@ -49,6 +49,10 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D myRigidBody;
     Collider2D myCollider2D;
 
+    [Header("Collison Force")]
+    private float knockback = 10f;
+    private float knockbackAir = 5f;
+
     private void Start()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
@@ -283,4 +287,13 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * distance);
     }
+
+   // private void OnTriggerEnter2D(Collider2D collision)
+   // {
+       // if (collision.gameObject.tag == "RainHit")
+       // {
+        //    rb.AddForce(Vector2.left * knockback);
+        //    rb.AddForce(Vector2.up * knockbackAir);
+        //}
+    //}
 }
