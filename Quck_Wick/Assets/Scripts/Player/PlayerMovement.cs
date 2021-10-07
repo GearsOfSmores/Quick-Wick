@@ -58,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
     
     public Animator playerAnimator;
 
+    public bool gliding;
+
     private void Start()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
@@ -306,12 +308,14 @@ public class PlayerMovement : MonoBehaviour
         {
             gravity = glideGravity;
             playerAnimator.SetBool("gliding", true);
+            gliding = true;
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             gravity = 1f;
             playerAnimator.SetBool("gliding", false);
+            gliding = false;
         }
     }
 
