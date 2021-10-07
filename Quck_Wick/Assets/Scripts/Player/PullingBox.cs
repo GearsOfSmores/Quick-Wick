@@ -14,6 +14,7 @@ public class PullingBox : MonoBehaviour
 
     public int mode;
     public int collid;
+    public GameObject bottomHalf;
 
 
     void Start()
@@ -51,6 +52,14 @@ public class PullingBox : MonoBehaviour
                 GetComponent<Rigidbody2D>().mass = baseMass;
                 GetComponent<Rigidbody2D>().isKinematic = false;
             }
+        }
+    }
+
+     private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Rain")
+        {
+            bottomHalf.SetActive(false);
         }
     }
 }

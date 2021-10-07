@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Movement")]
     [SerializeField] float moveSpeed = 10f;
     public Vector2 direction;
+    public bool facingRight = true;
 
 
     [Header("Jump")]
@@ -36,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
     public float fallMultiplier = 5f;
     public float glideGravity = .1f;
 
-
     private bool lastDir;
     private bool inAir = false;
     private GameObject box;
@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Moveable Objects")]
     public float distance = 1f;
     public LayerMask boxMask;
+    public bool toggle = false;
 
     Rigidbody2D myRigidBody;
     Collider2D myCollider2D;
@@ -79,6 +80,10 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log("This is x: " + xPos);
         //FlipSprite();
         Glide();
+
+
+
+        
     }
 
     void FixedUpdate()
@@ -97,7 +102,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //To stop character from jumping in air
         // Made change to if he is pulling something then he cant jump - Shane
-        if (onGround && !isPulling)
+        if (onGround)
         {
             //Create a new Vector and addForce vertically to the character
             rb.velocity = new Vector2(rb.velocity.x, 0);
@@ -123,11 +128,18 @@ public class PlayerMovement : MonoBehaviour
         // Multiplying the horizontal input by a variable we can change in the inspector
         if (knockbackCount <= 0)
         {
-            rb.AddForce(Vector2.right * horizontal * moveSpeed);
+          rb.AddForce(Vector2.right * horizontal * moveSpeed);
+    
         }
-        else
+        else if( knockback > 0 && facingRight == true)
         {
+            
             rb.velocity = new Vector2(-knockback, knockback);
+            knockbackCount -= Time.deltaTime;
+        }
+        else if (knockback > 0 && facingRight == false)
+        {
+            rb.velocity = new Vector2(knockback, knockback);
             knockbackCount -= Time.deltaTime;
         }
         
@@ -172,10 +184,15 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetAxis("Horizontal") < 0)
             {
                 transform.localScale = new Vector3(-1, 1, 1);
+                facingRight = false;
+               
+                
             }
             else if (Input.GetAxis("Horizontal") > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
+                facingRight = true;
+                
             }
         }
 
@@ -207,20 +224,23 @@ public class PlayerMovement : MonoBehaviour
                 box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
                 box.GetComponent<FixedJoint2D>().enabled = true;
                 box.GetComponent<PullingBox>().pushing = true;
-                return true;
+                toggle = true;
+              
+                 if (Input.GetKeyDown(KeyCode.R) && toggle == true)
+                {
+                    box.GetComponent<FixedJoint2D>().enabled = false;
+                    box.GetComponent<PullingBox>().pushing = false;
+                    toggle = false;
+                }
+
+
             }
 
-            // Once the e key is released let go of the object
-            else if (Input.GetKeyUp(KeyCode.E))
-            {
-                box.GetComponent<FixedJoint2D>().enabled = false;
-                box.GetComponent<PullingBox>().pushing = false;
-                return false;
-
-            }
+            return false;
+         
 
         }
-
+        toggle = false;
         return false;
 
     }
