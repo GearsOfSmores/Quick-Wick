@@ -7,16 +7,21 @@ public class MeltingTimer : MonoBehaviour
 {
     public float candleCounter;
 
+    public float initialCounter;
+
     public bool byBonfire;
 
     public GameObject player;
 
     public TMP_Text timer;
 
+    public ParticleSystem fireParticle;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        initialCounter = candleCounter;
     }
 
     // Update is called once per frame
@@ -27,6 +32,8 @@ public class MeltingTimer : MonoBehaviour
         {
             candleCounter -= Time.deltaTime;
             timer.text = Mathf.Round(candleCounter).ToString();
+            var main = fireParticle.main;
+            main.startSize = (2 * candleCounter) / initialCounter; //Has to be divided by the starting value of the candle counter.
             if (candleCounter <= 0)
             {
                 player.gameObject.SetActive(false);
