@@ -330,12 +330,4 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * distance);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.tag == "RainHit")
-        {
-            
-           
-        }
-    }
 }
