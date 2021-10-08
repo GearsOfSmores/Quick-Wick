@@ -60,6 +60,10 @@ public class PlayerMovement : MonoBehaviour
 
     public bool gliding;
 
+    [Header("Burn Components")]
+    public GameObject burnArea;
+    public GameObject flame;
+
     private void Start()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
@@ -78,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log("This is x: " + xPos);
         //FlipSprite();
         Glide();
+        Burn();
     }
 
     void FixedUpdate()
@@ -319,6 +324,21 @@ public class PlayerMovement : MonoBehaviour
             gravity = 1f;
             playerAnimator.SetBool("gliding", false);
             gliding = false;
+        }
+    }
+
+    private void Burn()
+    {
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            burnArea.SetActive(true);
+            flame.transform.localScale = flame.transform.localScale * 1.5f;
+        }
+
+        if(Input.GetKeyUp(KeyCode.F))
+        {
+            burnArea.SetActive(false);
+            flame.transform.localScale = flame.transform.localScale / 1.5f;
         }
     }
 

@@ -8,6 +8,10 @@ TagManager:
   - Rope
   - RainHit
   - Rain
+  - Burnable
+  - Flame
+  - Candle
+  - Torch
   layers:
   - Default
   - TransparentFX
