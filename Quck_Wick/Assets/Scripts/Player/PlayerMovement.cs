@@ -94,8 +94,10 @@ public class PlayerMovement : MonoBehaviour
     {
         //To stop character from jumping in air
         // Made change to if he is pulling something then he cant jump - Shane
-        if (onGround && !isPulling)
+        if (onGround)
         {
+            SoundManagerScript.PlaySound("jump");
+
             //Create a new Vector and addForce vertically to the character
             rb.velocity = new Vector2(rb.velocity.x, 0);
             rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
@@ -103,7 +105,7 @@ public class PlayerMovement : MonoBehaviour
             // resetting the jumpTimer to prevent multiple jumps
             jumpTimer = 0;
 
-            StartCoroutine(JumpSqueeze(/*0.5f*/transform.localScale.x - .5f, 1.2f, 0.1f));
+           // StartCoroutine(JumpSqueeze(/*0.5f*/transform.localScale.x - .5f, 1.2f, 0.1f));
         }
     }
 
@@ -142,9 +144,10 @@ public class PlayerMovement : MonoBehaviour
         if (!wasOnGround && onGround)
         {
             // Changed the x position to take the current x position and add to it - Shane
-            StartCoroutine(JumpSqueeze(transform.localScale.x + .25f, 0.8f, 0.05f));
+           // StartCoroutine(JumpSqueeze(transform.localScale.x + .25f, 0.8f, 0.05f));
         }
-
+        playerAnimator.SetFloat("horizontal", Mathf.Abs(rb.velocity.x));
+        playerAnimator.SetFloat("vertical", rb.velocity.y);
     }
 
     // To flip the character when they are going right or left
@@ -267,8 +270,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Squeezes the spriterender when both jumping and landing 
-    IEnumerator JumpSqueeze(float xSqueeze, float ySqueeze, float seconds)
-    {
+  /* IEnumerator JumpSqueeze(float xSqueeze, float ySqueeze, float seconds)
+   {
         // tracks current localscale of sr size
         Vector3 originalSize = transform.localScale;
         // create and define new size
@@ -290,7 +293,7 @@ public class PlayerMovement : MonoBehaviour
             yield return null;
         }
 
-    }
+    }*/
 
     private void Glide()
     {
