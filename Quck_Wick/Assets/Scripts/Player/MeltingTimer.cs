@@ -16,6 +16,9 @@ public class MeltingTimer : MonoBehaviour
     public TMP_Text timer;
 
     public ParticleSystem fireParticle;
+    
+
+    public GameObject wickFire;
 
 
     // Start is called before the first frame update
@@ -33,7 +36,9 @@ public class MeltingTimer : MonoBehaviour
             candleCounter -= Time.deltaTime;
             timer.text = Mathf.Round(candleCounter).ToString();
             var main = fireParticle.main;
-            main.startSize = (2 * candleCounter) / initialCounter; //Has to be divided by the starting value of the candle counter.
+            main.startSize = (.85f * candleCounter) / initialCounter;
+            wickFire.transform.localScale = new Vector3((.85f * candleCounter) / initialCounter, (.85f * candleCounter) / initialCounter, (.85f * candleCounter) / initialCounter);
+            //Has to be divided by the starting value of the candle counter.
             if (candleCounter <= 0)
             {
                 player.gameObject.SetActive(false);
