@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         transform.position = new Vector3(
-           Mathf.Clamp(targetToFollow.position.x, 0f, 150f),
+           Mathf.Clamp(targetToFollow.position.x, -130f, 200f),
            Mathf.Clamp(targetToFollow.position.y, 0f, 10f),
            transform.position.z);
     }
