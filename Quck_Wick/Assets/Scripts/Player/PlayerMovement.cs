@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("Player Movement")]
     [SerializeField] float moveSpeed = 10f;
     public Vector2 direction;
+    public bool facingRight = true;
 
 
     [Header("Jump")]
@@ -27,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sr;
     public LayerMask groundLayer;
     public Rigidbody2D rb;
+    public Animator playerAnimator;
+    Collider2D myCollider2D;
+    Rigidbody2D myRigidBody;
 
 
     [Header("Physics")]
@@ -41,14 +45,14 @@ public class PlayerMovement : MonoBehaviour
     private bool inAir = false;
     private GameObject box;
     private float xPos;
+    bool isDead = false;
 
 
     [Header("Moveable Objects")]
     public float distance = 1f;
     public LayerMask boxMask;
 
-    Rigidbody2D myRigidBody;
-    Collider2D myCollider2D;
+
 
     [Header("Collison Force")]
     public float knockback = 10f;
@@ -56,8 +60,8 @@ public class PlayerMovement : MonoBehaviour
     public float knockbackAir = 5f;
     public float knockbackCount = 0f;
     
-    public Animator playerAnimator;
-
+    
+    [SerializeField] Vector2 deathKick = new Vector2(.5f, .1f);
     public bool gliding;
 
     private void Start()
@@ -69,15 +73,24 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+
+        // So you cant keep moving the player after dying
+        if (isDead) { return; }
+
         FlipSprite();
         // Adding a small delay to the jump, that enhances the feel of the jump when in game
         if (Input.GetButtonDown("Jump"))
         {
             jumpTimer = Time.time + jumpDelay;
         }
-        //Debug.Log("This is x: " + xPos);
-        //FlipSprite();
+     
         Glide();
+
+        // Added for if the player touches an enemy he will respond to the last checkpoint touched
+        if (myCollider2D.IsTouchingLayers(LayerMask.GetMask("Enemy")))
+        {
+            Respond();
+        }
     }
 
     void FixedUpdate()
@@ -89,6 +102,16 @@ public class PlayerMovement : MonoBehaviour
         }
         modifyPhysics();
         Move(direction.x);
+    }
+
+    // Respond has a small player death effect just so I knew what was happening when he died 
+    public void Respond()
+    {
+        isDead = true;
+        GetComponent<Rigidbody2D>().velocity = deathKick;
+
+        // Calls the player position script to reset the player to the last checkpoint
+        FindObjectOfType<PlayerPosition>().Die();
     }
 
 
@@ -125,13 +148,19 @@ public class PlayerMovement : MonoBehaviour
         if (knockbackCount <= 0)
         {
             rb.AddForce(Vector2.right * horizontal * moveSpeed);
+         
         }
-        else
+         else if (knockbackCount > 0 && facingRight == true)
         {
             rb.velocity = new Vector2(-knockback, knockback);
             knockbackCount -= Time.deltaTime;
         }
-        
+        else if (knockbackCount > 0 && facingRight == false)
+        {
+            rb.velocity = new Vector2(knockback, knockback);
+            knockbackCount -= Time.deltaTime;
+        }
+
 
         // This result is a feeling of the character gaining momentum overtime
         // If current velocity is greater than our maxSpeed
@@ -163,9 +192,11 @@ public class PlayerMovement : MonoBehaviour
         {
             isPulling = Pull();
         }
-        else if (Input.GetKeyUp(KeyCode.E))
+
+        // Added this for if the player hits r they will release the object
+        else if (Input.GetKeyDown(KeyCode.R))
         {
-            isPulling = Pull();
+            isPulling = StopPulling();
         }
 
         // If the character is not pulling or pushing then he will keep turning left and right like normal
@@ -173,11 +204,13 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetAxis("Horizontal") < 0)
             {
+                facingRight = false;
                 transform.localScale = new Vector3(-1, 1, 1);
             }
             else if (Input.GetAxis("Horizontal") > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
+                facingRight = true;
             }
         }
 
@@ -212,19 +245,26 @@ public class PlayerMovement : MonoBehaviour
                 return true;
             }
 
-            // Once the e key is released let go of the object
-            else if (Input.GetKeyUp(KeyCode.E))
-            {
-                box.GetComponent<FixedJoint2D>().enabled = false;
-                box.GetComponent<PullingBox>().pushing = false;
-                return false;
-
-            }
-
         }
+
+        // Removed the get key up code so the player will continue to hold the object until r is pressed
 
         return false;
 
+    }
+    // The new function for when the player hits r then he should release the object
+    private bool StopPulling()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            box.GetComponent<FixedJoint2D>().enabled = false;
+            box.GetComponent<PullingBox>().pushing = false;
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
 

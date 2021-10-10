@@ -8,6 +8,7 @@ TagManager:
   - Rope
   - RainHit
   - Rain
+  - GM
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Ground
   - Player
   - Roof
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -56,4 +57,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 3752155163
+    locked: 0
+  - name: Enemy
+    uniqueID: 1586062429
     locked: 0
