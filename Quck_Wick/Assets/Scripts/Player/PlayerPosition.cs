@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerPosition : MonoBehaviour
 {
     private GameMaster gm;
+    public GameObject player;
 
     void Start()
     {
@@ -22,6 +23,7 @@ public class PlayerPosition : MonoBehaviour
     public void Die()
     {
         // If the player dies reload the current scene
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        // SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        player.transform.position = gm.lastCheckPointPos;
     }
 }

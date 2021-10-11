@@ -157,8 +157,8 @@ public class PlayerMovement : MonoBehaviour
     // Respond has a small player death effect just so I knew what was happening when he died 
     public void Respond()
     {
-        isDead = true;
-        GetComponent<Rigidbody2D>().velocity = deathKick;
+       // isDead = true;
+        //GetComponent<Rigidbody2D>().velocity = deathKick;
 
         // Calls the player position script to reset the player to the last checkpoint
         FindObjectOfType<PlayerPosition>().Die();
