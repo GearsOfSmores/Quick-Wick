@@ -5596,7 +5596,7 @@ PrefabInstance:
     - target: {fileID: 8763630681427575490, guid: 07febb36a35811b4499c81acb749435f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8763630681427575494, guid: 07febb36a35811b4499c81acb749435f,
         type: 3}
@@ -56238,7 +56238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07116c6781184e43978905eb7c04730, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lastCheckPointPos: {x: 278, y: 7}
+  lastCheckPointPos: {x: -146, y: -6}
   deleteTutorial: {fileID: 1664581814}
   delete: {fileID: 1080149961}
 --- !u!4 &1452225320
@@ -63052,12 +63052,12 @@ PrefabInstance:
     - target: {fileID: 3989244304351630928, guid: c635954dfb4761d418d8e45389524ba8,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 278.95
+      value: -145.56
       objectReference: {fileID: 0}
     - target: {fileID: 3989244304351630928, guid: c635954dfb4761d418d8e45389524ba8,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.74
+      value: -6.02
       objectReference: {fileID: 0}
     - target: {fileID: 3989244304351630928, guid: c635954dfb4761d418d8e45389524ba8,
         type: 3}
