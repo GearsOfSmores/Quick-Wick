@@ -14,6 +14,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float jumpSpeed = 12f;
     public float jumpDelay = 0.25f;
     private float jumpTimer;
+    public float airRightSpeed = 5f;
+    public float airLeftSpeed = 10f;
+    public bool inAir = false;
 
 
     [Header("Collision")]
@@ -42,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     private bool lastDir;
-    private bool inAir = false;
+    
     private GameObject box;
     private float xPos;
     bool isDead = false;
@@ -124,19 +127,34 @@ public class PlayerMovement : MonoBehaviour
             SoundManagerScript.PlaySound("jump");
 
             //Create a new Vector and addForce vertically to the character
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-            rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+             rb.velocity = new Vector2(rb.velocity.x , 0);
+             rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
 
+            
             // resetting the jumpTimer to prevent multiple jumps
             jumpTimer = 0;
 
            // StartCoroutine(JumpSqueeze(/*0.5f*/transform.localScale.x - .5f, 1.2f, 0.1f));
         }
+        
+        
     }
 
     // Code for moving the character left and right
     private void Move(float horizontal)
     {
+
+        if (onGround)
+        {
+            inAir = false;
+        }
+        else inAir = true;
+
+       // if(inAir == true)
+       // {
+           // rb.velocity = new Vector2(rb.velocity.x * 2 * Time.deltaTime, rb.velocity.y);
+       // }
+
 
         direction = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
 
@@ -145,10 +163,18 @@ public class PlayerMovement : MonoBehaviour
         onGround = Physics2D.Raycast(transform.position + colliderOffset, Vector2.down, groundLength, groundLayer);
 
         // Multiplying the horizontal input by a variable we can change in the inspector
-        if (knockbackCount <= 0)
+        if (knockbackCount <= 0 && inAir == false)
         {
             rb.AddForce(Vector2.right * horizontal * moveSpeed);
          
+        }
+        else if (knockbackCount <= 0 && inAir == true && facingRight)
+        {
+            rb.AddForce(Vector2.right * horizontal * moveSpeed *airRightSpeed);
+        }
+        else if(knockbackCount <= 0 && inAir == true && !facingRight)
+        {
+            rb.AddForce(Vector2.right * horizontal * moveSpeed * airLeftSpeed);
         }
          else if (knockbackCount > 0 && facingRight == true)
         {
@@ -165,7 +191,7 @@ public class PlayerMovement : MonoBehaviour
         // This result is a feeling of the character gaining momentum overtime
         // If current velocity is greater than our maxSpeed
 
-        if (Mathf.Abs(rb.velocity.x) > maxSpeed)
+        if (Mathf.Abs(rb.velocity.x) > maxSpeed && inAir == false)
         {
             // return the current velocity as 1 and multiply it by maxSpeed, clamping the speed.
             rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
@@ -276,6 +302,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (onGround)
         {
+            inAir = false;
             // Applying linear drag to the character after. 
             if (Mathf.Abs(direction.x) < 0.4f || changingDirections)
             {
@@ -304,7 +331,7 @@ public class PlayerMovement : MonoBehaviour
 
             // If holding down the jump button, before reaching the peak of the jump, gravity is divided by 2.
             ///Resulting in a higher jump
-           else if (rb.velocity.y > 0 && Input.GetButton("Jump") || !Input.GetButton("Jump"))
+           else if (rb.velocity.y > 0 &&  !Input.GetButton("Jump"))
             {
                rb.gravityScale = gravity * (fallMultiplier / 2);
             }
@@ -312,55 +339,61 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Squeezes the spriterender when both jumping and landing 
-  /* IEnumerator JumpSqueeze(float xSqueeze, float ySqueeze, float seconds)
-   {
-        // tracks current localscale of sr size
-        Vector3 originalSize = transform.localScale;
-        // create and define new size
-        Vector3 newSize = new Vector3(xSqueeze, ySqueeze, originalSize.z);
+    /* IEnumerator JumpSqueeze(float xSqueeze, float ySqueeze, float seconds)
+     {
+          // tracks current localscale of sr size
+          Vector3 originalSize = transform.localScale;
+          // create and define new size
+          Vector3 newSize = new Vector3(xSqueeze, ySqueeze, originalSize.z);
 
 
-        float t = 0f;
-        while (t <= 1.0)
-        {
-            t += Time.deltaTime / seconds;
-            sr.transform.localScale = Vector3.Lerp(originalSize, newSize, t);
-            yield return null;
-        }
-        t = 0f;
-        while (t <= 1.0)
-        {
-            t += Time.deltaTime / seconds;
-            sr.transform.localScale = Vector3.Lerp(newSize, originalSize, t);
-            yield return null;
-        }
+          float t = 0f;
+          while (t <= 1.0)
+          {
+              t += Time.deltaTime / seconds;
+              sr.transform.localScale = Vector3.Lerp(originalSize, newSize, t);
+              yield return null;
+          }
+          t = 0f;
+          while (t <= 1.0)
+          {
+              t += Time.deltaTime / seconds;
+              sr.transform.localScale = Vector3.Lerp(newSize, originalSize, t);
+              yield return null;
+          }
 
-    }*/
+      }*/
 
     private void Glide()
     {
         //Current bugs/issues:
-        //Player can hold down the glide button and moon jump
         //Rapidly tapping the glide button allows the player to glide for a little longer than intended, due to rapidly setting y velocity to 0. Can probably be fixed by implementing a brief timer between uses.
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) && !onGround)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            gravity = glideGravity;
-            playerAnimator.SetBool("gliding", true);
             gliding = true;
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && !onGround && gliding)
+        {
+            gravity = glideGravity;
+            playerAnimator.SetBool("gliding", true);
+        }
+        else if (onGround)
+        {
+            gliding = false;
+            gravity = 1f;
+            playerAnimator.SetBool("gliding", false);
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift) && !onGround)
         {
             gravity = 1f;
             playerAnimator.SetBool("gliding", false);
             gliding = false;
         }
     }
+
 
 
     private void OnDrawGizmos()

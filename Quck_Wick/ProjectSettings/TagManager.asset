@@ -9,6 +9,9 @@ TagManager:
   - RainHit
   - Rain
   - GM
+  - OneWayPlatform
+  - Enemy
+  - OneWay
   layers:
   - Default
   - TransparentFX
@@ -23,7 +26,7 @@ TagManager:
   - Player
   - Roof
   - Enemy
-  - 
+  - OneWayPlatform
   - 
   - 
   - 
