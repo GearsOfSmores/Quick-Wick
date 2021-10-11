@@ -9,6 +9,7 @@ public class GameMaster : MonoBehaviour
 
     void Awake()
     {
+        
         if (instance == null)
         {
             instance = this;
@@ -20,4 +21,5 @@ public class GameMaster : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
 }

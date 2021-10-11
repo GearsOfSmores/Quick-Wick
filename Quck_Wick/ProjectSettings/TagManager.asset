@@ -12,6 +12,8 @@ TagManager:
   - OneWayPlatform
   - Enemy
   - OneWay
+  - Torch
+  - Burnable
   layers:
   - Default
   - TransparentFX
@@ -27,7 +29,7 @@ TagManager:
   - Roof
   - Enemy
   - OneWayPlatform
-  - 
+  - Crates
   - 
   - 
   - 

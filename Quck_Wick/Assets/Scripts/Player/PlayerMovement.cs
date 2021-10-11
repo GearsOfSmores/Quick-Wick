@@ -19,6 +19,9 @@ public class PlayerMovement : MonoBehaviour
     public bool inAir = false;
 
 
+    [Header("Enemy")]
+    public float enemyDamage;
+
     [Header("Collision")]
     public bool onGround = false;
     public float groundLength = 0.6f;
@@ -26,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 leftOffset;
     public Vector3 rightOffset;
     public bool isPulling = false;
+    public bool isMovingObject = false;
 
     [Header("Components")]
     private SpriteRenderer sr;
@@ -34,6 +38,9 @@ public class PlayerMovement : MonoBehaviour
     public Animator playerAnimator;
     Collider2D myCollider2D;
     Rigidbody2D myRigidBody;
+    public SpriteRenderer bodySr;
+    public GameObject gameManager;
+    public float candleCounter;
 
 
     [Header("Physics")]
@@ -54,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Moveable Objects")]
     public float distance = 1f;
     public LayerMask boxMask;
+    public float objectheight = 5f;
+    public bool holdingObject = false;
 
 
 
@@ -62,16 +71,38 @@ public class PlayerMovement : MonoBehaviour
     public float knockbackLength;
     public float knockbackAir = 5f;
     public float knockbackCount = 0f;
-    
-    
-    [SerializeField] Vector2 deathKick = new Vector2(.5f, .1f);
-    public bool gliding;
 
+
+    [Header("Burn Components")]
+    public GameObject burnArea;
+    public GameObject flame;
+    public bool burning = false;
+
+
+    [Header("Iframes")]
+    [SerializeField] private float IframesDuration;
+    [SerializeField] private int numberOfFlashes;
+
+
+    [Header("Glide")]
+    public bool gliding;
+    public bool canGlide = false;
+
+    [SerializeField] Vector2 deathKick = new Vector2(.5f, .1f);
+
+    private void Awake()
+    {
+        Application.targetFrameRate = 30;
+    }
     private void Start()
     {
         myRigidBody = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         myCollider2D = GetComponent<Collider2D>();
+
+     ;
+        
+
     }
 
     void Update()
@@ -86,11 +117,22 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpTimer = Time.time + jumpDelay;
         }
-     
-        Glide();
+         if (canGlide == true)
+            {
+                Glide();
+            }
+        
+        Burn();
 
         // Added for if the player touches an enemy he will respond to the last checkpoint touched
         if (myCollider2D.IsTouchingLayers(LayerMask.GetMask("Enemy")))
+        {
+            knockbackCount = .2f;
+            gameManager.GetComponent<MeltingTimer>().candleCounter -= enemyDamage;
+            StartCoroutine(Invulnerability());
+
+        }
+        if (Input.GetKeyDown(KeyCode.X))
         {
             Respond();
         }
@@ -165,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
         // Multiplying the horizontal input by a variable we can change in the inspector
         if (knockbackCount <= 0 && inAir == false)
         {
-            rb.AddForce(Vector2.right * horizontal * moveSpeed);
+            rb.AddForce(Vector2.right * horizontal * moveSpeed );
          
         }
         else if (knockbackCount <= 0 && inAir == true && facingRight)
@@ -194,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
         if (Mathf.Abs(rb.velocity.x) > maxSpeed && inAir == false)
         {
             // return the current velocity as 1 and multiply it by maxSpeed, clamping the speed.
-            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed, rb.velocity.y);
+            rb.velocity = new Vector2(Mathf.Sign(rb.velocity.x) * maxSpeed , rb.velocity.y);
         }
 
 
@@ -214,19 +256,22 @@ public class PlayerMovement : MonoBehaviour
 
         // Had to check for if the key was being pressed down twice in the code for there to be no errors when 
         // grabbing an item. Once in here and again in the pull method
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.W) && !isMovingObject)
         {
+            
             isPulling = Pull();
         }
 
         // Added this for if the player hits r they will release the object
-        else if (Input.GetKeyDown(KeyCode.R))
+        else if (Input.GetKeyDown(KeyCode.W) && isMovingObject )
         {
+           
             isPulling = StopPulling();
         }
+        
 
-        // If the character is not pulling or pushing then he will keep turning left and right like normal
-        if (!isPulling)
+            // If the character is not pulling or pushing then he will keep turning left and right like normal
+            if (!isPulling)
         {
             if (Input.GetAxis("Horizontal") < 0)
             {
@@ -262,14 +307,44 @@ public class PlayerMovement : MonoBehaviour
             // If the object is tagged Grabbable in the inspector and not null and pressing e then grab the item
             // Objects that need to be grabbed will have to have component Fixed Joint 2D and it will have to be
             // inactive before starting. If active player will be stuck to the object
-            if (hit.collider != null && hit.collider.gameObject.tag == "Grabbable" && Input.GetKeyDown(KeyCode.E))
+            if (hit.collider != null 
+                && hit.collider.gameObject.tag == "Grabbable" 
+                && Input.GetKeyDown(KeyCode.W) && !isMovingObject)
             {
+                
                 box = hit.collider.gameObject;
                 box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
                 box.GetComponent<FixedJoint2D>().enabled = true;
                 box.GetComponent<PullingBox>().pushing = true;
+                isMovingObject = true;
+              
                 return true;
+                
             }
+            /*if (isMovingObject && Input.GetKeyDown(KeyCode.C))
+            {
+                box.GetComponent<FixedJoint2D>().enabled = false;
+                box.GetComponent<PullingBox>().pushing = false;
+                box.GetComponent<Rigidbody2D>().AddForce(Vector2.up * objectheight, ForceMode2D.Impulse);
+                isMovingObject = false;
+                return false;
+
+            }
+                
+
+       // if (Input.GetKeyDown(KeyCode.F) && isMovingObject)
+        // {
+               // box = hit.collider.gameObject;
+              //  box.transform.position = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+        // }
+
+         /* if (isMovingObject )
+            {
+                box.GetComponent<FixedJoint2D>().enabled = false;
+                box.GetComponent<PullingBox>().pushing = false;
+                isMovingObject = false;
+                return false;
+            }*/
 
         }
 
@@ -281,16 +356,27 @@ public class PlayerMovement : MonoBehaviour
     // The new function for when the player hits r then he should release the object
     private bool StopPulling()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.W) && isMovingObject)
         {
             box.GetComponent<FixedJoint2D>().enabled = false;
             box.GetComponent<PullingBox>().pushing = false;
+            isMovingObject = false;
             return false;
         }
         else
         {
             return true;
         }
+    }
+
+    private void ThrowObject()
+    {
+   
+            box.GetComponent<FixedJoint2D>().enabled = false;
+            box.GetComponent<PullingBox>().pushing = false;
+            box.GetComponent<Rigidbody2D>().AddForce(Vector2.up * objectheight *Time.deltaTime, ForceMode2D.Impulse);
+
+
     }
 
 
@@ -331,7 +417,7 @@ public class PlayerMovement : MonoBehaviour
 
             // If holding down the jump button, before reaching the peak of the jump, gravity is divided by 2.
             ///Resulting in a higher jump
-           else if (rb.velocity.y > 0 &&  !Input.GetButton("Jump"))
+           else if (rb.velocity.y > 0 && Input.GetButton("Jump") || !Input.GetButton("Jump"))
             {
                rb.gravityScale = gravity * (fallMultiplier / 2);
             }
@@ -366,8 +452,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Glide()
     {
-        //Current bugs/issues:
-        //Rapidly tapping the glide button allows the player to glide for a little longer than intended, due to rapidly setting y velocity to 0. Can probably be fixed by implementing a brief timer between uses.
         if (Input.GetKeyDown(KeyCode.LeftShift) && !onGround)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
@@ -392,6 +476,40 @@ public class PlayerMovement : MonoBehaviour
             playerAnimator.SetBool("gliding", false);
             gliding = false;
         }
+    }
+
+    private void Burn()
+    {
+        if (Input.GetKey(KeyCode.P))
+        {
+            burning = true;
+            burnArea.SetActive(true);
+            flame.transform.localScale = flame.transform.localScale * 1.5f;
+        }
+
+        if (Input.GetKeyUp(KeyCode.P))
+        {
+            burning = false;
+            burnArea.SetActive(false);
+            flame.transform.localScale = flame.transform.localScale / 1.5f;
+        }
+    }
+
+
+    private IEnumerator Invulnerability()
+    {
+        Physics2D.IgnoreLayerCollision(10, 12, true);
+        //invulnerability duration
+
+        for (int i = 0; i < numberOfFlashes; i++)
+        {
+            bodySr.color = new Color(1, 0, 0, 0.5f);
+            yield return new WaitForSeconds(IframesDuration / (numberOfFlashes * 2));
+            bodySr.color = Color.white;
+            yield return new WaitForSeconds(IframesDuration / (numberOfFlashes * 2));
+        }
+
+        Physics2D.IgnoreLayerCollision(10, 12, false);
     }
 
 

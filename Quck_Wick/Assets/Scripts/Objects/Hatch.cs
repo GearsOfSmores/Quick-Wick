@@ -5,18 +5,20 @@ using UnityEngine;
 public class Hatch : MonoBehaviour
 {
     Rigidbody2D rb;
-    public RopeDestroy RD;
+    public GameObject rope;
+    public GameObject BH;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-
+       
         rb.isKinematic = true;
     }
 
     private void Update()
     {
-        if (RD.destroyRope == true)
+        if (rope == null)
         {
+            BH.SetActive(false);
             rb.isKinematic = false;
         }
     }

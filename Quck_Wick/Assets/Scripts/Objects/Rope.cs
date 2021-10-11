@@ -6,6 +6,7 @@ public class Rope : MonoBehaviour
 {
     public RopeDestroy RD;
     public GameObject BH;
+    public PlayerMovement playerMovement;
 
     private void Start()
     {
@@ -13,11 +14,26 @@ public class Rope : MonoBehaviour
     }
     private void Update()
     {
+        /*
         if(RD.destroyRope == true)
         {
             Destroy(gameObject);
             BH.SetActive(false);
+        }*/
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player" && playerMovement.burning == true)
+        {
+           
+            Destroy(gameObject);
+            
         }
+
+        
 
     }
 }
+

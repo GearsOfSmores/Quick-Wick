@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
+
     private bool keepPatrolling;
 
     // To set the enemy move speed in the inspector
@@ -11,6 +12,8 @@ public class EnemyMovement : MonoBehaviour
 
     private bool turn;
     private bool wallTurn;
+
+    public Vector3 colliderOffset;
 
     // To set the enemy rigid body in the inspector
     public Rigidbody2D rb;
@@ -23,13 +26,8 @@ public class EnemyMovement : MonoBehaviour
     // tried removing the collider but had issues with them going through walls when removed
     public LayerMask groundLayer;
     public Collider2D bodyCollider;
+    public float circleRadius;
 
-    public Vector3 colliderOffset;
-
-    public float groundLength = .1f;
-    public float wallLength;
-
-    public Animator anim;
     void Start()
     {
         keepPatrolling = true;
@@ -43,8 +41,7 @@ public class EnemyMovement : MonoBehaviour
         {
             Patrol();
         }
-
-        anim.SetFloat("horizontal", Mathf.Abs(rb.velocity.x));
+        Physics2D.IgnoreLayerCollision(12, 14);
     }
 
     void FixedUpdate()
@@ -52,8 +49,8 @@ public class EnemyMovement : MonoBehaviour
         if (keepPatrolling)
         {
             // If the enemy touches a wall or reaches the end of a platform then change there direction
-            turn = !Physics2D.OverlapCircle(detectGoundPos.position, groundLength, groundLayer);
-            wallTurn = Physics2D.OverlapCircle(detectWallPos.position, groundLength, groundLayer);
+            turn = !Physics2D.OverlapCircle(detectGoundPos.position, circleRadius, groundLayer);
+            wallTurn = Physics2D.OverlapCircle(detectWallPos.position, circleRadius, groundLayer);
         }
     }
 
@@ -77,7 +74,10 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-       
+        Gizmos.color = Color.green;
+
+        Gizmos.DrawSphere(transform.position +colliderOffset, circleRadius);
     }
+
 
 }
