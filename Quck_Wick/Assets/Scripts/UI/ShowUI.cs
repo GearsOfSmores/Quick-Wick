@@ -20,8 +20,7 @@ public class ShowUI : MonoBehaviour
       
         jumpText.SetActive(false);
 
-        destroyMove = false;
-        
+        destroyMove = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -46,17 +45,15 @@ public class ShowUI : MonoBehaviour
     IEnumerator JumpWait()
     {
         yield return new WaitForSeconds(5);
-        Destroy(jumpText);
+        jumpText.SetActive(false);
     }
 
     IEnumerator DestroyMove()
     {
         if (uiShow.jumpTextActive == false)
-            yield return new WaitForSeconds(3);
-        Destroy(moveText);
+            yield return new WaitForSeconds(5);
+        //Destroy(moveText);
         moveTextActive = false;
-
-
     }
 
 }
