@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -100,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         myCollider2D = GetComponent<Collider2D>();
 
-     ;
+     
         
 
     }
@@ -133,6 +134,10 @@ public class PlayerMovement : MonoBehaviour
 
         }
         if (Input.GetKeyDown(KeyCode.X))
+        {
+            Respond();
+        }
+        if(transform.position.y < -20)
         {
             Respond();
         }

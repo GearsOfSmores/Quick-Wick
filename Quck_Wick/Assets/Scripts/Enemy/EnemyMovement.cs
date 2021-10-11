@@ -27,6 +27,7 @@ public class EnemyMovement : MonoBehaviour
     public LayerMask groundLayer;
     public Collider2D bodyCollider;
     public float circleRadius;
+    public Animator anim;
 
     void Start()
     {
@@ -42,6 +43,7 @@ public class EnemyMovement : MonoBehaviour
             Patrol();
         }
         Physics2D.IgnoreLayerCollision(12, 14);
+        anim.SetFloat("horizontal", Mathf.Abs(rb.velocity.x));
     }
 
     void FixedUpdate()
