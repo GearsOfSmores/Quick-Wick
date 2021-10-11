@@ -53854,12 +53854,12 @@ PrefabInstance:
     - target: {fileID: 8025578198931312776, guid: 7d9b6e9516e2b7b409ba12511c9142b4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.438208
+      value: 5.301
       objectReference: {fileID: 0}
     - target: {fileID: 8025578198931312776, guid: 7d9b6e9516e2b7b409ba12511c9142b4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 35.062065
+      value: 32.5
       objectReference: {fileID: 0}
     - target: {fileID: 8025578198931312776, guid: 7d9b6e9516e2b7b409ba12511c9142b4,
         type: 3}
@@ -54434,12 +54434,12 @@ PrefabInstance:
     - target: {fileID: 8025578198931312776, guid: 7d9b6e9516e2b7b409ba12511c9142b4,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.404997
+      value: 8.742
       objectReference: {fileID: 0}
     - target: {fileID: 8025578198931312776, guid: 7d9b6e9516e2b7b409ba12511c9142b4,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 30.980001
+      value: 31.7
       objectReference: {fileID: 0}
     - target: {fileID: 8025578198931312776, guid: 7d9b6e9516e2b7b409ba12511c9142b4,
         type: 3}
@@ -57811,7 +57811,7 @@ FixedJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 236.61794, y: 17.957592}
+  m_ConnectedAnchor: {x: 234.11792, y: 18.127594}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &2081016904
@@ -57946,7 +57946,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2081016902}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 94.24, y: 2.5, z: 330.1418}
+  m_LocalPosition: {x: 91.74, y: 2.67, z: 330.1418}
   m_LocalScale: {x: 3.590232, y: 1.9419962, z: 0.7767985}
   m_Children: []
   m_Father: {fileID: 84066054}
