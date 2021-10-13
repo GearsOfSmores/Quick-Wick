@@ -485,14 +485,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Burn()
     {
-        if (Input.GetKey(KeyCode.P))
+        if (Input.GetKey(KeyCode.Q))
         {
             burning = true;
             burnArea.SetActive(true);
             flame.transform.localScale = flame.transform.localScale * 1.5f;
         }
 
-        if (Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.Q))
         {
             burning = false;
             burnArea.SetActive(false);
