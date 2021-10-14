@@ -175,7 +175,16 @@ public class PlayerMovement : MonoBehaviour
 
             //Create a new Vector and addForce vertically to the character
              rb.velocity = new Vector2(rb.velocity.x , 0);
-             rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+
+             if(Mathf.Abs(direction.x) < 0.4f)
+            {
+                rb.AddForce(Vector2.up * jumpSpeed *1.3f, ForceMode2D.Impulse);
+            }
+            else
+            {
+                rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+            }
+             
 
             
             // resetting the jumpTimer to prevent multiple jumps
@@ -248,8 +257,14 @@ public class PlayerMovement : MonoBehaviour
         if (!wasOnGround && onGround)
         {
             // Changed the x position to take the current x position and add to it - Shane
-           // StartCoroutine(JumpSqueeze(transform.localScale.x + .25f, 0.8f, 0.05f));
+            // StartCoroutine(JumpSqueeze(transform.localScale.x + .25f, 0.8f, 0.05f));
         }
+
+        if(!wasOnGround && onGround && Mathf.Abs(direction.x) < 0.4f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x / 5, 0); //Added this code to make the landing less slippery.
+        }
+
         playerAnimator.SetFloat("horizontal", Mathf.Abs(rb.velocity.x));
         playerAnimator.SetFloat("vertical", rb.velocity.y);
     }
@@ -485,14 +500,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void Burn()
     {
-        if (Input.GetKey(KeyCode.P))
+        if (Input.GetKey(KeyCode.Q))
         {
             burning = true;
             burnArea.SetActive(true);
             flame.transform.localScale = flame.transform.localScale * 1.5f;
         }
 
-        if (Input.GetKeyUp(KeyCode.P))
+        if (Input.GetKeyUp(KeyCode.Q))
         {
             burning = false;
             burnArea.SetActive(false);
