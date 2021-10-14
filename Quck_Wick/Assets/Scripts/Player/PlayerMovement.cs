@@ -248,8 +248,14 @@ public class PlayerMovement : MonoBehaviour
         if (!wasOnGround && onGround)
         {
             // Changed the x position to take the current x position and add to it - Shane
-           // StartCoroutine(JumpSqueeze(transform.localScale.x + .25f, 0.8f, 0.05f));
+            // StartCoroutine(JumpSqueeze(transform.localScale.x + .25f, 0.8f, 0.05f));
         }
+
+        if(!wasOnGround && onGround && Mathf.Abs(direction.x) < 0.4f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x / 5, 0); //Added this code to make the landing less slippery.
+        }
+
         playerAnimator.SetFloat("horizontal", Mathf.Abs(rb.velocity.x));
         playerAnimator.SetFloat("vertical", rb.velocity.y);
     }
