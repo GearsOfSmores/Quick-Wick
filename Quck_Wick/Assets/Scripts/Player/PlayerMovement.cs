@@ -175,7 +175,16 @@ public class PlayerMovement : MonoBehaviour
 
             //Create a new Vector and addForce vertically to the character
              rb.velocity = new Vector2(rb.velocity.x , 0);
-             rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+
+             if(Mathf.Abs(direction.x) < 0.4f)
+            {
+                rb.AddForce(Vector2.up * jumpSpeed *1.3f, ForceMode2D.Impulse);
+            }
+            else
+            {
+                rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
+            }
+             
 
             
             // resetting the jumpTimer to prevent multiple jumps
