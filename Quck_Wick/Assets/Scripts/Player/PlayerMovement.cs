@@ -94,6 +94,9 @@ public class PlayerMovement : MonoBehaviour
     public bool gliding;
     public bool canGlide = false;
 
+    private bool hasStartedPushing = false;
+    private bool knockbackSFXPlayed = false;
+
     [SerializeField] Vector2 deathKick = new Vector2(.5f, .1f);
 
     private void Awake()
@@ -237,7 +240,6 @@ public class PlayerMovement : MonoBehaviour
         if (knockbackCount <= 0 && inAir == false)
         {
             rb.AddForce(Vector2.right * horizontal * moveSpeed );
-         
         }
         else if (knockbackCount <= 0 && inAir == true && facingRight)
         {
@@ -251,11 +253,13 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(-knockback, knockback);
             knockbackCount -= Time.deltaTime;
+            StartCoroutine("KnockbackSFX");
         }
         else if (knockbackCount > 0 && facingRight == false)
         {
             rb.velocity = new Vector2(knockback, knockback);
             knockbackCount -= Time.deltaTime;
+            StartCoroutine("KnockbackSFX");
         }
 
 
@@ -271,6 +275,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!wasOnGround && onGround)
         {
+            //Landing code for spawning landing dust
             Vector3 offset = new Vector3(0f, 1.5f, 0f);
             GameObject dustClone = Instantiate(_dustParticlePrefab, this.transform.position - offset, Quaternion.identity);
             Destroy(dustClone, 1f);
@@ -287,6 +292,12 @@ public class PlayerMovement : MonoBehaviour
 
         playerAnimator.SetFloat("horizontal", Mathf.Abs(rb.velocity.x));
         playerAnimator.SetFloat("vertical", rb.velocity.y);
+
+        if (isMovingObject && !hasStartedPushing && Input.GetAxis("Horizontal") > 0 && onGround || isMovingObject && !hasStartedPushing && Input.GetAxis("Horizontal") < 0 && onGround)
+        {
+            hasStartedPushing = true;
+            StartCoroutine("PushingSFX");
+        }
     }
 
     // To flip the character when they are going right or left
@@ -485,10 +496,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void Burn()
     {
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             burning = true;
             burnArea.SetActive(true);
+            SoundManagerScript.PlaySound("burn");
             flame.transform.localScale = flame.transform.localScale * 1.5f;
         }
 
@@ -517,7 +529,27 @@ public class PlayerMovement : MonoBehaviour
         Physics2D.IgnoreLayerCollision(10, 12, false);
     }
 
+    private IEnumerator PushingSFX()
+    {
+        while(hasStartedPushing && Input.GetAxis("Horizontal") > 0 && onGround || hasStartedPushing && Input.GetAxis("Horizontal") < 0 && onGround)
+        {
+            SoundManagerScript.PlaySound("push");
+            yield return new WaitForSeconds(.7f);
+        }
+        hasStartedPushing = false;
+    }
 
+    private IEnumerator KnockbackSFX()
+    {
+        if(!knockbackSFXPlayed)
+        {
+            SoundManagerScript.PlaySound("ouch");
+            knockbackSFXPlayed = true;
+        }
+        yield return new WaitForSeconds(.1f);
+        knockbackSFXPlayed = false;
+        StopCoroutine("KnockbackSFX");
+    }
 
     private void OnDrawGizmos()
     {
