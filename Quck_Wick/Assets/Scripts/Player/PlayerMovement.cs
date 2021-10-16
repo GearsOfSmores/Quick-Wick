@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float moveSpeed = 10f;
     public Vector2 direction;
     public bool facingRight = true;
-    public bool canMove = true;
+    public GameObject player;
+    public GameObject[] crates;
 
 
     [Header("Jump")]
@@ -58,6 +59,8 @@ public class PlayerMovement : MonoBehaviour
     private GameObject box;
     private float xPos;
     bool isDead = false;
+    bool hasResponded = false;
+    bool respond = false;
 
 
     [Header("Moveable Objects")]
@@ -98,13 +101,11 @@ public class PlayerMovement : MonoBehaviour
     }
     private void Start()
     {
+        //isDead = false;
         myRigidBody = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         myCollider2D = GetComponent<Collider2D>();
-
-     
-        
-
+        crates = GameObject.FindGameObjectsWithTag("Grabbable");
     }
 
     void Update()
@@ -113,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
         // So you cant keep moving the player after dying
         if (isDead) { return; }
 
-        FlipSprite();
+        //FlipSprite(respond);
         // Adding a small delay to the jump, that enhances the feel of the jump when in game
         if (Input.GetButtonDown("Jump"))
         {
@@ -134,13 +135,26 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(Invulnerability());
 
         }
+
+        
         if (Input.GetKeyDown(KeyCode.X))
         {
-            Respond();
+            //StopPulling();
+            respond = Respond();
+            
         }
         if(transform.position.y < -20)
         {
-            Respond();
+            //StopPulling();
+            respond = Respond();
+        }
+
+        FlipSprite(respond);
+
+        // After the player responds set respond back to false so he doesn't keep jumping back to checkpoint
+        if (respond)
+        {
+            respond = false;
         }
     }
 
@@ -148,25 +162,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if (jumpTimer > Time.time)
         {
-            //Debug.Log("This is x: " + transform.localScale.x);
+            
             Jump();
         }
         modifyPhysics();
-        if (canMove == true)
-        {
-            Move(direction.x);
-        }
-       
+        Move(direction.x);
     }
 
     // Respond has a small player death effect just so I knew what was happening when he died 
-    public void Respond()
+    public bool Respond()
     {
-       // isDead = true;
-        //GetComponent<Rigidbody2D>().velocity = deathKick;
-
         // Calls the player position script to reset the player to the last checkpoint
         FindObjectOfType<PlayerPosition>().Die();
+        hasResponded = true;
+        return hasResponded;
     }
 
 
@@ -275,28 +284,32 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // To flip the character when they are going right or left
-    // Changed it so that the player is being flipped by the scale instead of the sprite renderer - Shane
-    private void FlipSprite()
+    // Changed it so that the player is being flipped by the scale instead of the sprite renderer
+    // Added a bool veriable to tell if the player has responded
+    private void FlipSprite(bool hasResponded)
     {
-
+        //Debug.Log("has responded: " + hasResponded);
         // Had to check for if the key was being pressed down twice in the code for there to be no errors when 
         // grabbing an item. Once in here and again in the pull method
         if (Input.GetKeyDown(KeyCode.W) && !isMovingObject)
-        {
-            
-            isPulling = Pull();
+        { 
+            isPulling = Pull(hasResponded);
+            if (hasResponded)
+            {
+                // Had to add this to force the pulling to stop for him to stop if he responded
+                isPulling = false;
+            }
         }
 
         // Added this for if the player hits r they will release the object
-        else if (Input.GetKeyDown(KeyCode.W) && isMovingObject )
+        else if (Input.GetKeyDown(KeyCode.W) && isMovingObject || hasResponded)
         {
-           
-            isPulling = StopPulling();
+            isPulling = StopPulling(hasResponded);
         }
-        
 
-            // If the character is not pulling or pushing then he will keep turning left and right like normal
-            if (!isPulling)
+        //Debug.Log("has pulled: " + isPulling);
+        // If the character is not pulling or pushing then he will keep turning left and right like normal
+        if (!isPulling)
         {
             if (Input.GetAxis("Horizontal") < 0)
             {
@@ -311,7 +324,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // If he is holding something he will not turn left or right
-        else
+        else if(isPulling)
         {
             transform.localScale = new Vector3(transform.localScale.x, 1, 1);
         }
@@ -321,7 +334,9 @@ public class PlayerMovement : MonoBehaviour
 
     // This method will allow the player to push and pull and object box mask in the inspector will need to have
     // everything selected except for player
-    private bool Pull()
+
+    // Added a bool variable to pass through the function to tell if the player responded
+    private bool Pull(bool responded)
     {
         Physics2D.queriesStartInColliders = false;
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, distance, boxMask);
@@ -332,9 +347,12 @@ public class PlayerMovement : MonoBehaviour
             // If the object is tagged Grabbable in the inspector and not null and pressing e then grab the item
             // Objects that need to be grabbed will have to have component Fixed Joint 2D and it will have to be
             // inactive before starting. If active player will be stuck to the object
+
+            // Made a small change here to make sure the player didn't respond
             if (hit.collider != null 
                 && hit.collider.gameObject.tag == "Grabbable" 
-                && Input.GetKeyDown(KeyCode.W) && !isMovingObject)
+                && Input.GetKeyDown(KeyCode.W) && !isMovingObject
+                && !responded)
             {
                 
                 box = hit.collider.gameObject;
@@ -346,30 +364,7 @@ public class PlayerMovement : MonoBehaviour
                 return true;
                 
             }
-            /*if (isMovingObject && Input.GetKeyDown(KeyCode.C))
-            {
-                box.GetComponent<FixedJoint2D>().enabled = false;
-                box.GetComponent<PullingBox>().pushing = false;
-                box.GetComponent<Rigidbody2D>().AddForce(Vector2.up * objectheight, ForceMode2D.Impulse);
-                isMovingObject = false;
-                return false;
 
-            }
-                
-
-       // if (Input.GetKeyDown(KeyCode.F) && isMovingObject)
-        // {
-               // box = hit.collider.gameObject;
-              //  box.transform.position = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
-        // }
-
-         /* if (isMovingObject )
-            {
-                box.GetComponent<FixedJoint2D>().enabled = false;
-                box.GetComponent<PullingBox>().pushing = false;
-                isMovingObject = false;
-                return false;
-            }*/
 
         }
 
@@ -379,18 +374,22 @@ public class PlayerMovement : MonoBehaviour
 
     }
     // The new function for when the player hits r then he should release the object
-    private bool StopPulling()
+    private bool StopPulling(bool hasResponded)
     {
-        if (Input.GetKeyDown(KeyCode.W) && isMovingObject)
+        // Updated so it checks for if the player has responded if he has then release the object
+        if (Input.GetKeyDown(KeyCode.W) && isMovingObject && !hasResponded || hasResponded && isMovingObject)
         {
             box.GetComponent<FixedJoint2D>().enabled = false;
             box.GetComponent<PullingBox>().pushing = false;
             isMovingObject = false;
             return false;
         }
+
+        // Else statement returning false this portion for some reason if I take it out the player wont release
+        // the crate if you respond without a crate
         else
         {
-            return true;
+            return false;
         }
     }
 
@@ -449,31 +448,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // Squeezes the spriterender when both jumping and landing 
-    /* IEnumerator JumpSqueeze(float xSqueeze, float ySqueeze, float seconds)
-     {
-          // tracks current localscale of sr size
-          Vector3 originalSize = transform.localScale;
-          // create and define new size
-          Vector3 newSize = new Vector3(xSqueeze, ySqueeze, originalSize.z);
-
-
-          float t = 0f;
-          while (t <= 1.0)
-          {
-              t += Time.deltaTime / seconds;
-              sr.transform.localScale = Vector3.Lerp(originalSize, newSize, t);
-              yield return null;
-          }
-          t = 0f;
-          while (t <= 1.0)
-          {
-              t += Time.deltaTime / seconds;
-              sr.transform.localScale = Vector3.Lerp(newSize, originalSize, t);
-              yield return null;
-          }
-
-      }*/
 
     private void Glide()
     {
