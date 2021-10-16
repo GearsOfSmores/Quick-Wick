@@ -44,7 +44,7 @@ public class ShowUI : MonoBehaviour
     }
     IEnumerator JumpWait()
     {
-        yield return new WaitForSeconds(7);
+        yield return new WaitForSeconds(12);
         blackUIBox.SetActive(false);
         jumpText.SetActive(false);
     }
@@ -52,7 +52,7 @@ public class ShowUI : MonoBehaviour
     IEnumerator DestroyMove()
     {
         if (uiShow.jumpTextActive == false)
-            yield return new WaitForSeconds(7);
+            yield return new WaitForSeconds(12);
         //Destroy(moveText);
         blackUIBox.SetActive(false);
         moveTextActive = false;
