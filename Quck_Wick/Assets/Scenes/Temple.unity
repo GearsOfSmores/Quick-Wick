@@ -1994,6 +1994,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5347910345754767298, guid: 7913467c17c6947429c4b98a90bf70ed,
         type: 3}
+      propertyPath: jumpText
+      value: 
+      objectReference: {fileID: 1246507857}
+    - target: {fileID: 5347910345754767298, guid: 7913467c17c6947429c4b98a90bf70ed,
+        type: 3}
+      propertyPath: moveText
+      value: 
+      objectReference: {fileID: 1922729642}
+    - target: {fileID: 5347910345754767298, guid: 7913467c17c6947429c4b98a90bf70ed,
+        type: 3}
       propertyPath: blackUIBox
       value: 
       objectReference: {fileID: 208009792}
@@ -2112,6 +2122,11 @@ PrefabInstance:
       propertyPath: moveText
       value: 
       objectReference: {fileID: 1922729642}
+    - target: {fileID: 5347910346954661686, guid: 7913467c17c6947429c4b98a90bf70ed,
+        type: 3}
+      propertyPath: blackUIBox
+      value: 
+      objectReference: {fileID: 208009792}
     - target: {fileID: 5347910347656424079, guid: 7913467c17c6947429c4b98a90bf70ed,
         type: 3}
       propertyPath: jumpText
@@ -7682,15 +7697,25 @@ PrefabInstance:
       propertyPath: m_PointLightInnerRadius
       value: 5.0335336
       objectReference: {fileID: 0}
+    - target: {fileID: 2207699506730974066, guid: a743e4cb3e370e14698603c31d269dd3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.199
+      objectReference: {fileID: 0}
+    - target: {fileID: 2207699506730974066, guid: a743e4cb3e370e14698603c31d269dd3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.048
+      objectReference: {fileID: 0}
     - target: {fileID: 6013144554530846145, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.12
+      value: -0.161
       objectReference: {fileID: 0}
     - target: {fileID: 6013144554530846145, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.1
+      value: 0.043
       objectReference: {fileID: 0}
     - target: {fileID: 6013144554530846145, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
@@ -7714,13 +7739,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6013144554673785560, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013144554673785560, guid: a743e4cb3e370e14698603c31d269dd3,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013144554673785560, guid: a743e4cb3e370e14698603c31d269dd3,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9971874
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013144554673785560, guid: a743e4cb3e370e14698603c31d269dd3,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.348
+      value: -0.449
       objectReference: {fileID: 0}
     - target: {fileID: 6013144554673785560, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.091
+      value: 1.205
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013144554673785560, guid: a743e4cb3e370e14698603c31d269dd3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013144554673785560, guid: a743e4cb3e370e14698603c31d269dd3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013144554673785560, guid: a743e4cb3e370e14698603c31d269dd3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013144554673785560, guid: a743e4cb3e370e14698603c31d269dd3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6013144554673785560, guid: a743e4cb3e370e14698603c31d269dd3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6013144554673785561, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
@@ -7760,12 +7825,12 @@ PrefabInstance:
     - target: {fileID: 6013144555037279783, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -34.54
+      value: -32.98
       objectReference: {fileID: 0}
     - target: {fileID: 6013144555037279783, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.83
+      value: -5.18
       objectReference: {fileID: 0}
     - target: {fileID: 6013144555037279783, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
@@ -7830,12 +7895,12 @@ PrefabInstance:
     - target: {fileID: 6013144555073499675, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.9
+      value: -0.967
       objectReference: {fileID: 0}
     - target: {fileID: 6013144555073499675, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.56
+      value: -0.757
       objectReference: {fileID: 0}
     - target: {fileID: 6013144555073499675, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
@@ -7845,12 +7910,12 @@ PrefabInstance:
     - target: {fileID: 6013144555832739516, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.05
+      value: -0.004
       objectReference: {fileID: 0}
     - target: {fileID: 6013144555832739516, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.53
+      value: -1.487
       objectReference: {fileID: 0}
     - target: {fileID: 6013144555832739516, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
@@ -7875,12 +7940,12 @@ PrefabInstance:
     - target: {fileID: 6013144556151942941, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.7
+      value: 0.601
       objectReference: {fileID: 0}
     - target: {fileID: 6013144556151942941, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.58
+      value: -0.631
       objectReference: {fileID: 0}
     - target: {fileID: 6013144556151942941, guid: a743e4cb3e370e14698603c31d269dd3,
         type: 3}
@@ -17259,6 +17324,41 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8763630681349396290, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681349396292, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_text
+      value: You can Press your 's' joint to drop from platforms
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681349396292, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681349396292, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681349396293, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681349396293, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681349396293, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: 8763630681427575490, guid: 07febb36a35811b4499c81acb749435f,
         type: 3}
       propertyPath: m_Name
@@ -17369,6 +17469,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8763630681653903570, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681653903570, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681653903570, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681653903571, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681653903573, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_text
+      value: "Fire grants the candle to ability to burn through certain objects.
+        \nFlex your 'RMB' joint inorder to burn them."
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681653903573, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681653903573, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_fontSizeBase
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763630681653903573, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -5849749972829344814, guid: 762606bdba4e36a4ab36941298205cfc,
+        type: 2}
+    - target: {fileID: 8763630681653903573, guid: 07febb36a35811b4499c81acb749435f,
+        type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8763630681692755122, guid: 07febb36a35811b4499c81acb749435f,
         type: 3}
       propertyPath: m_IsActive
@@ -17445,14 +17592,13 @@ PrefabInstance:
     - target: {fileID: 8763630682083506659, guid: 07febb36a35811b4499c81acb749435f,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8763630682083506661, guid: 07febb36a35811b4499c81acb749435f,
         type: 3}
       propertyPath: m_text
       value: "Inorder to move objects you must flex your  'W' joint. This will allow
-        you push them away,\n or pull them towards you. Flex 'W' again to relase
-        the object. "
+        you push,\n or pull objects towards you. Flex 'W' again to relase the object. "
       objectReference: {fileID: 0}
     - target: {fileID: 8763630682083506661, guid: 07febb36a35811b4499c81acb749435f,
         type: 3}
