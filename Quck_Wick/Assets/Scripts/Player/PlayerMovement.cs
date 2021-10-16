@@ -215,7 +215,6 @@ public class PlayerMovement : MonoBehaviour
     // Code for moving the character left and right
     private void Move(float horizontal)
     {
-        _dustParticlePrefab.SetActive(false);
         if (onGround)
         {
             inAir = false;
@@ -272,8 +271,9 @@ public class PlayerMovement : MonoBehaviour
 
         if (!wasOnGround && onGround)
         {
-            
-            //Instantiate(_dustParticlePrefab, transform.position, Quaternion.identity);
+            Vector3 offset = new Vector3(0f, 1.5f, 0f);
+            GameObject dustClone = Instantiate(_dustParticlePrefab, this.transform.position - offset, Quaternion.identity);
+            Destroy(dustClone, 1f);
             //Changed the x position to take the current x position and add to it - Shane
             //StartCoroutine(JumpSqueeze(transform.localScale.x + .25f, 0.8f, 0.05f));
         }
@@ -529,18 +529,4 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * distance);
     }
-
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == 9)
-        {
-            _dustParticlePrefab.SetActive(true);
-        }
-        else
-        {
-            _dustParticlePrefab.SetActive(false);
-        }
-    }
-
 }
