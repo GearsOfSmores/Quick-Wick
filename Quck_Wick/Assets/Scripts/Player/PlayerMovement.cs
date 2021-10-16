@@ -44,6 +44,7 @@ public class PlayerMovement : MonoBehaviour
     public SpriteRenderer bodySr;
     public GameObject gameManager;
     public float candleCounter;
+    public GameObject _dustParticlePrefab;
 
 
     [Header("Physics")]
@@ -106,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         myCollider2D = GetComponent<Collider2D>();
         crates = GameObject.FindGameObjectsWithTag("Grabbable");
+        
     }
 
     void Update()
@@ -213,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
     // Code for moving the character left and right
     private void Move(float horizontal)
     {
-
+        _dustParticlePrefab.SetActive(false);
         if (onGround)
         {
             inAir = false;
@@ -270,9 +272,13 @@ public class PlayerMovement : MonoBehaviour
 
         if (!wasOnGround && onGround)
         {
-            // Changed the x position to take the current x position and add to it - Shane
-            // StartCoroutine(JumpSqueeze(transform.localScale.x + .25f, 0.8f, 0.05f));
+            
+            //Instantiate(_dustParticlePrefab, transform.position, Quaternion.identity);
+            //Changed the x position to take the current x position and add to it - Shane
+            //StartCoroutine(JumpSqueeze(transform.localScale.x + .25f, 0.8f, 0.05f));
         }
+       
+        
 
         if(!wasOnGround && onGround && Mathf.Abs(direction.x) < 0.4f)
         {
@@ -522,6 +528,19 @@ public class PlayerMovement : MonoBehaviour
         // Drawing a green line to show where the player can grab distance can be changed in the inspector
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, (Vector2)transform.position + Vector2.right * transform.localScale.x * distance);
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == 9)
+        {
+            _dustParticlePrefab.SetActive(true);
+        }
+        else
+        {
+            _dustParticlePrefab.SetActive(false);
+        }
     }
 
 }
