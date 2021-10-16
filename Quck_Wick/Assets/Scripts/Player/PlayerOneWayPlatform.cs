@@ -43,7 +43,7 @@ public class PlayerOneWayPlatform : MonoBehaviour
 
     private IEnumerator DisableCollision()
     {
-        BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
+        EdgeCollider2D platformCollider = currentOneWayPlatform.GetComponent<EdgeCollider2D>();
 
         platformCollider.enabled = false;
         yield return new WaitForSeconds(.5f);

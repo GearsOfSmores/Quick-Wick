@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float moveSpeed = 10f;
     public Vector2 direction;
     public bool facingRight = true;
+    public bool canMove = true;
 
 
     [Header("Jump")]
@@ -151,7 +152,11 @@ public class PlayerMovement : MonoBehaviour
             Jump();
         }
         modifyPhysics();
-        Move(direction.x);
+        if (canMove == true)
+        {
+            Move(direction.x);
+        }
+       
     }
 
     // Respond has a small player death effect just so I knew what was happening when he died 
