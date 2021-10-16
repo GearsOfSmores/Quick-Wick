@@ -94,8 +94,10 @@ public class PlayerMovement : MonoBehaviour
     public bool gliding;
     public bool canGlide = false;
 
+    [Header("Audio Stuff")]
     private bool hasStartedPushing = false;
     private bool knockbackSFXPlayed = false;
+    public AudioSource footStepsSource;
 
     [SerializeField] Vector2 deathKick = new Vector2(.5f, .1f);
 
@@ -292,7 +294,19 @@ public class PlayerMovement : MonoBehaviour
 
         playerAnimator.SetFloat("horizontal", Mathf.Abs(rb.velocity.x));
         playerAnimator.SetFloat("vertical", rb.velocity.y);
-
+        
+        if (onGround && Input.GetAxis("Horizontal") > 0 || Input.GetAxis("Horizontal") < 0 && onGround)
+        {
+            if(!footStepsSource.isPlaying)
+            {
+                footStepsSource.Play();
+            }
+        }
+        else
+        {
+            footStepsSource.Stop();
+        }
+        //Code for the pushing sound effects
         if (isMovingObject && !hasStartedPushing && Input.GetAxis("Horizontal") > 0 && onGround || isMovingObject && !hasStartedPushing && Input.GetAxis("Horizontal") < 0 && onGround)
         {
             hasStartedPushing = true;
