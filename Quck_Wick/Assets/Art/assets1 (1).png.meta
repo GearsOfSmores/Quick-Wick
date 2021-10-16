@@ -44,6 +44,18 @@ TextureImporter:
   - first:
       213: 2586300649466211461
     second: assets1 (1)_13
+  - first:
+      213: -7733502090893446410
+    second: assets1 (1)_14
+  - first:
+      213: 6415878211811321258
+    second: assets1 (1)_15
+  - first:
+      213: -2081342365659179627
+    second: assets1 (1)_16
+  - first:
+      213: 4370792439675975268
+    second: assets1 (1)_17
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -430,6 +442,90 @@ TextureImporter:
       bones: []
       spriteID: 58cabc5ecb264e320800000000000000
       internalID: 2586300649466211461
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: assets1 (1)_14
+      rect:
+        serializedVersion: 2
+        x: 1320
+        y: 46
+        width: 163
+        height: 570
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 25, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f23e8a72d41da490800000000000000
+      internalID: -7733502090893446410
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: assets1 (1)_15
+      rect:
+        serializedVersion: 2
+        x: 1501
+        y: 55
+        width: 151
+        height: 545
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 19, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa5ae29ad37c90950800000000000000
+      internalID: 6415878211811321258
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: assets1 (1)_16
+      rect:
+        serializedVersion: 2
+        x: 1660
+        y: 55
+        width: 278
+        height: 456
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 595d9e655269d13e0800000000000000
+      internalID: -2081342365659179627
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: assets1 (1)_17
+      rect:
+        serializedVersion: 2
+        x: 1942
+        y: 28
+        width: 281
+        height: 529
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46679d1019c28ac30800000000000000
+      internalID: 4370792439675975268
       vertices: []
       indices: 
       edges: []
