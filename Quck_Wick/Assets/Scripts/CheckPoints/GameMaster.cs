@@ -6,13 +6,14 @@ public class GameMaster : MonoBehaviour
 {
     private static GameMaster instance;
     public Vector2 lastCheckPointPos;
-    public GameObject deleteTutorial;
+    
     Collider2D box;
-    public GameObject delete;
-
+    
+    public Vector3 SpawnLocation;
+    public GameObject player;
     void Awake()
     {
-
+        
         if (instance == null)
         {
             instance = this;
@@ -23,10 +24,13 @@ public class GameMaster : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        box = deleteTutorial.GetComponent<BoxCollider2D>();
+        
     }
 
-
-    
+    /*
+     void Start()
+    {
+        player.transform.position = GameMaster.instance.SpawnLocation;
+    }*/
 }
 

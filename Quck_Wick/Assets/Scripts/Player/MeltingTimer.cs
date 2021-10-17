@@ -13,7 +13,7 @@ public class MeltingTimer : MonoBehaviour
     public bool byBonfire;
 
     public GameObject player;
-
+    public PlayerMovement playermovement;
     public TMP_Text timer;
 
     public ParticleSystem fireParticle;
@@ -29,6 +29,7 @@ public class MeltingTimer : MonoBehaviour
     void Start()
     {
         initialCounter = candleCounter;
+
     }
 
     // Update is called once per frame
@@ -49,8 +50,12 @@ public class MeltingTimer : MonoBehaviour
 
             wickLight.pointLightOuterRadius = (8 * candleCounter) / initialCounter; //Change 8 to whatever the value of the outerradius is to start. 
             wickLight.pointLightInnerRadius = (3 * candleCounter) / initialCounter;
+            if (!playermovement.burning)
+            {
+               wickFire.transform.localScale = new Vector3((.85f * candleCounter) / initialCounter, (.85f * candleCounter) / initialCounter, (.85f * candleCounter) / initialCounter);
+            }
 
-            wickFire.transform.localScale = new Vector3((.85f * candleCounter) / initialCounter, (.85f * candleCounter) / initialCounter, (.85f * candleCounter) / initialCounter);
+           
             //Has to be divided by the starting value of the candle counter.
             if (candleCounter <= 0)
             {

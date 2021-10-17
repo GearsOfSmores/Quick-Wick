@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public bool facingRight = true;
     public GameObject player;
     public GameObject[] crates;
+    
 
 
     [Header("Jump")]
@@ -113,6 +114,8 @@ public class PlayerMovement : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         myCollider2D = GetComponent<Collider2D>();
         crates = GameObject.FindGameObjectsWithTag("Grabbable");
+        
+
         
     }
 

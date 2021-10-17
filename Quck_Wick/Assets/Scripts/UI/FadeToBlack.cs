@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FadeToBlack : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class FadeToBlack : MonoBehaviour
         {
             blackImage.color = new Color(blackImage.color.r, blackImage.color.g, blackImage.color.b, blackImage.color.a - Time.deltaTime);
             yield return new WaitForSeconds(.01f);
+
         }
         
     }
@@ -45,6 +47,7 @@ public class FadeToBlack : MonoBehaviour
         {
             blackImage.color = new Color(blackImage.color.r, blackImage.color.g, blackImage.color.b, blackImage.color.a + Time.deltaTime);
             yield return new WaitForSeconds(.01f);
+
         }
         
     }
