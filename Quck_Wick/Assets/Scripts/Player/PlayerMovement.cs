@@ -83,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject burnArea;
     public GameObject flame;
     public bool burning = false;
+    public GameObject flameSprite;
 
 
     [Header("Iframes")]
@@ -515,7 +516,8 @@ public class PlayerMovement : MonoBehaviour
             burning = true;
             burnArea.SetActive(true);
             SoundManagerScript.PlaySound("burn");
-            flame.transform.localScale = flame.transform.localScale * 1.5f;
+            flame.transform.localScale = flame.transform.localScale * 5f;
+            
         }
 
         if (Input.GetKeyUp(KeyCode.Q))

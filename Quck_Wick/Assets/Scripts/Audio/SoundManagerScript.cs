@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManagerScript : MonoBehaviour
 {
-    public static AudioClip playerHitSound, burnSound, jumpSound, glideSound, pushSound;
+    public static AudioClip playerHitSound, burnSound, jumpSound, glideSound;
     static AudioSource audioSrc;
 
     private void Start()
@@ -12,8 +12,7 @@ public class SoundManagerScript : MonoBehaviour
         playerHitSound = Resources.Load<AudioClip>("ouch");
         burnSound = Resources.Load<AudioClip>("burn");
         jumpSound = Resources.Load<AudioClip>("jump");
-        glideSound = Resources.Load<AudioClip>("glidestart");
-        pushSound = Resources.Load<AudioClip>("push");
+        glideSound = Resources.Load<AudioClip>("glidstart");
 
         audioSrc = GetComponent<AudioSource>();
 
@@ -33,11 +32,8 @@ public class SoundManagerScript : MonoBehaviour
                     case "jump":
                         audioSrc.PlayOneShot(jumpSound);
                         break;
-                    case "glidestart":
+                    case "glidstart":
                         audioSrc.PlayOneShot(glideSound);
-                        break;
-                    case "push":
-                        audioSrc.PlayOneShot(pushSound);
                         break;
 
         }
