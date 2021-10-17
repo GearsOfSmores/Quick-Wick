@@ -516,7 +516,7 @@ public class PlayerMovement : MonoBehaviour
             burning = true;
             burnArea.SetActive(true);
             SoundManagerScript.PlaySound("burn");
-            flame.transform.localScale = flame.transform.localScale * 5f;
+            flame.transform.localScale = flame.transform.localScale * 1.5f;
             
         }
 

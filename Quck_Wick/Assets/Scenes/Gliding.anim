@@ -62,14 +62,14 @@ AnimationClip:
     - time: 0
       value: {fileID: 0}
     attribute: m_Sprite
-    path: Fire
+    path: Arm_Right
     classID: 212
     script: {fileID: 0}
   - curve:
     - time: 0
       value: {fileID: 0}
     attribute: m_Sprite
-    path: Arm_Right
+    path: FlameHolder/Fire
     classID: 212
     script: {fileID: 0}
   m_SampleRate: 60
@@ -108,14 +108,14 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 4176258801
+      path: 1694871309
       attribute: 0
       script: {fileID: 0}
       typeID: 212
       customType: 23
       isPPtrCurve: 1
     - serializedVersion: 2
-      path: 1694871309
+      path: 3652158013
       attribute: 0
       script: {fileID: 0}
       typeID: 212

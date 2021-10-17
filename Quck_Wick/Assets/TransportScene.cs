@@ -8,7 +8,7 @@ public class TransportScene : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            //SceneManager.LoadScene("");
+            SceneManager.LoadScene("Temple");
         }
     }
 }

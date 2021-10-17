@@ -12,6 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/TestScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/TutorialBegin.unity
+    guid: bcf77a57b19010b4da10f4bc8d86b0c9
+  - enabled: 1
+    path: Assets/Scenes/Temple.unity
+    guid: 6f7bc731f8101a5478166996d09f73b9
+  - enabled: 1
     path: Assets/Scenes/Game Over Screen.unity
     guid: 22effbdcb03481a4cb5284bf2db707ef
   - enabled: 1
