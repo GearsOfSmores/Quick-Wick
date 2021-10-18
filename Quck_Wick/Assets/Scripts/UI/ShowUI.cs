@@ -6,6 +6,7 @@ public class ShowUI : MonoBehaviour
 {
     public GameObject text;
     public GameObject textBackground;
+    public GameObject EscapeText;
     //public GameObject moveText;
    
  
@@ -33,6 +34,7 @@ public class ShowUI : MonoBehaviour
         {
             text.SetActive(true);
             textBackground.SetActive(true);
+            EscapeText.SetActive(true);
         }
     }
 

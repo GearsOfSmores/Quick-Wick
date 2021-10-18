@@ -8,18 +8,18 @@ public class DontDestroyAudio : MonoBehaviour
 
     private GameObject[] objs;
     public bool caveMusic;
-    private void Start()
+    
+    private void Update()
     {
         Scene scene = SceneManager.GetActiveScene();
-        if(scene.name == "Temple"|| scene.name == "TutorialBegin")
+        if (scene.name == "Temple" || scene.name == "TutorialBegin")
         {
             caveMusic = true;
         }
-        else if(scene.name == "TestScene")
+        else if (scene.name == "TestScene")
         {
             caveMusic = false;
         }
-
         objs = GameObject.FindGameObjectsWithTag("music");
         if (caveMusic == true)
         {
@@ -29,19 +29,5 @@ public class DontDestroyAudio : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-            
-
-        
-
-
-
-
-
-
-
-
-
-
-
     }
 }
