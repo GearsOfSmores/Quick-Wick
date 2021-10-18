@@ -12,6 +12,7 @@ public class bonFire : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             meltingTimer.byBonfire = true;
+            meltingTimer.candleCounter = 300f;
         }
     }
     private void OnTriggerExit2D(Collider2D other)

@@ -16,7 +16,7 @@ public class DontDestroyAudio : MonoBehaviour
         {
             caveMusic = true;
         }
-        else if (scene.name == "TestScene")
+        else
         {
             caveMusic = false;
         }
