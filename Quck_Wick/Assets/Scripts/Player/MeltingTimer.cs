@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class MeltingTimer : MonoBehaviour
 {
@@ -24,19 +25,31 @@ public class MeltingTimer : MonoBehaviour
     public Light2D wickLight;
     public GameObject wickFire;
 
+    public bool timerOn =false;
+
 
     // Start is called before the first frame update
     void Start()
     {
         initialCounter = candleCounter;
+        
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        Scene scene = SceneManager.GetActiveScene();
+        if(scene.name == "Temple" || scene.name == "TutorialBegin")
+        {
+            timerOn = false;
+        }
+        else
+        {
+            timerOn = true;
+        }
         //For future implementation for checkpoints being a chance for some breathing room.
-        if(!byBonfire)
+        if(!byBonfire && timerOn == true )
         {
             candleCounter -= Time.deltaTime;
             timer.text = Mathf.Round(candleCounter).ToString();

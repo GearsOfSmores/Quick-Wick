@@ -15,6 +15,7 @@ TagManager:
   - Torch
   - Burnable
   - BonFire
+  - music
   layers:
   - Default
   - TransparentFX

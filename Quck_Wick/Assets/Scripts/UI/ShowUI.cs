@@ -12,14 +12,15 @@ public class ShowUI : MonoBehaviour
     public bool jumpTextActive = false;
 
     public Collider2D jumpCollider;
-    public GameObject blackUIBox;
+    public GameObject UIArt;
+    public GameObject UIArtTwo;
     public bool moveTextActive = true;
     public ShowUI uiShow;
     private void Start()
     {
       
         jumpText.SetActive(false);
-        blackUIBox.SetActive(false);
+        UIArt.SetActive(false);
         destroyMove = true;
     }
 
@@ -28,16 +29,18 @@ public class ShowUI : MonoBehaviour
         
         if(collision.gameObject.tag == "Player" && destroyMove == false)
         {
-            blackUIBox.SetActive(true);
+            UIArt.SetActive(true);
             jumpText.SetActive(true);
             StartCoroutine("JumpWait");
               
         }
         else if (collision.gameObject.tag == "Player" && destroyMove == true)
             {
-            blackUIBox.SetActive(true);
+          
+           
             moveText.SetActive(false);
                 jumpText.SetActive(true);
+                UIArt.SetActive(true);
                 StartCoroutine("JumpWait");
             }
 
@@ -45,8 +48,10 @@ public class ShowUI : MonoBehaviour
     IEnumerator JumpWait()
     {
         yield return new WaitForSeconds(20);
-        blackUIBox.SetActive(false);
+        
         jumpText.SetActive(false);
+        UIArt.SetActive(false);
+        
     }
 
     IEnumerator DestroyMove()
@@ -54,7 +59,7 @@ public class ShowUI : MonoBehaviour
         if (uiShow.jumpTextActive == false)
             yield return new WaitForSeconds(20);
         //Destroy(moveText);
-        blackUIBox.SetActive(false);
+        
         moveTextActive = false;
     }
 
