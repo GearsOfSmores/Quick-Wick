@@ -12,6 +12,7 @@ public class MeltingTimer : MonoBehaviour
     public float initialCounter;
 
     public bool byBonfire;
+    
 
     public GameObject player;
     public PlayerMovement playermovement;
@@ -32,7 +33,8 @@ public class MeltingTimer : MonoBehaviour
     void Start()
     {
         initialCounter = candleCounter;
-        
+        byBonfire = false;
+    
 
     }
 
@@ -49,7 +51,7 @@ public class MeltingTimer : MonoBehaviour
             timerOn = true;
         }
         //For future implementation for checkpoints being a chance for some breathing room.
-        if(!byBonfire && timerOn == true )
+        if(byBonfire == false && timerOn == true )
         {
             candleCounter -= Time.deltaTime;
             timer.text = Mathf.Round(candleCounter).ToString();

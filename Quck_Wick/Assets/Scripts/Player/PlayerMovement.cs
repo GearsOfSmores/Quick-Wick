@@ -79,6 +79,8 @@ public class PlayerMovement : MonoBehaviour
     public float knockbackAir = 5f;
     public float knockbackCount = 0f;
 
+    public bool invulnerability = false;
+
 
     [Header("Burn Components")]
     public GameObject burnArea;
@@ -100,6 +102,9 @@ public class PlayerMovement : MonoBehaviour
     private bool hasStartedPushing = false;
     private bool knockbackSFXPlayed = false;
     public AudioSource footStepsSource;
+
+
+   
 
     [SerializeField] Vector2 deathKick = new Vector2(.5f, .1f);
 
@@ -141,9 +146,10 @@ public class PlayerMovement : MonoBehaviour
         // Added for if the player touches an enemy he will respond to the last checkpoint touched
         if (myCollider2D.IsTouchingLayers(LayerMask.GetMask("Enemy")))
         {
+
+            StartCoroutine(Invulnerability());
             knockbackCount = .2f;
             gameManager.GetComponent<MeltingTimer>().candleCounter -= enemyDamage;
-            StartCoroutine(Invulnerability());
 
         }
 
@@ -535,6 +541,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator Invulnerability()
     {
         Physics2D.IgnoreLayerCollision(10, 12, true);
+         invulnerability = true;
         //invulnerability duration
 
         for (int i = 0; i < numberOfFlashes; i++)
@@ -546,7 +553,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Physics2D.IgnoreLayerCollision(10, 12, false);
-    }
+         invulnerability = false;
+}
 
     private IEnumerator PushingSFX()
     {
@@ -568,6 +576,13 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         knockbackSFXPlayed = false;
         StopCoroutine("KnockbackSFX");
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            
+        }
     }
 
     private void OnDrawGizmos()
