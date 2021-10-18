@@ -4,25 +4,39 @@ using UnityEngine;
 
 public class ShowUI : MonoBehaviour
 {
-    public GameObject jumpText;
-    public GameObject moveText;
+    public GameObject text;
+    public GameObject textBackground;
+    //public GameObject moveText;
    
  
-    public bool destroyMove;
-    public bool jumpTextActive = false;
+   // public bool destroyMove;
+   // public bool jumpTextActive = false;
 
-    public Collider2D jumpCollider;
-    public GameObject UIArt;
-    public GameObject UIArtTwo;
-    public bool moveTextActive = true;
-    public ShowUI uiShow;
+    //public Collider2D jumpCollider;
+    //public GameObject UIArt;
+    //public GameObject UIArtTwo;
+    //public bool moveTextActive = true;
+    //public ShowUI uiShow;
     private void Start()
     {
-      
-        jumpText.SetActive(false);
-        UIArt.SetActive(false);
-        destroyMove = true;
+        text.SetActive(false);
+        textBackground.SetActive(false);
+        //jumpText.SetActive(false);
+       // UIArt.SetActive(false);
+        //destroyMove = true;
     }
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            text.SetActive(true);
+            textBackground.SetActive(true);
+        }
+    }
+
+    /*
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -45,6 +59,7 @@ public class ShowUI : MonoBehaviour
             }
 
     }
+
     IEnumerator JumpWait()
     {
         yield return new WaitForSeconds(20);
@@ -62,5 +77,5 @@ public class ShowUI : MonoBehaviour
         
         moveTextActive = false;
     }
-
+    */
 }
