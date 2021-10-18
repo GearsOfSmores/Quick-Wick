@@ -9,7 +9,7 @@ public class WinGame : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            SceneManager.LoadScene("Win Game");
+            SceneManager.LoadScene("WinScreen");
         }
     }
 }
