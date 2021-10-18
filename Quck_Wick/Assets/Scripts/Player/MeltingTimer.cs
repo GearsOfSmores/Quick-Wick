@@ -75,6 +75,7 @@ public class MeltingTimer : MonoBehaviour
             if (candleCounter <= 0)
             {
                 player.gameObject.SetActive(false);
+                SceneManager.LoadScene("GameOver");
             }
         }
     }

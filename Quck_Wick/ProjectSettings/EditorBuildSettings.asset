@@ -18,9 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Temple.unity
     guid: 6f7bc731f8101a5478166996d09f73b9
   - enabled: 1
-    path: Assets/Scenes/Game Over Screen.unity
-    guid: 22effbdcb03481a4cb5284bf2db707ef
+    path: Assets/Scenes/GameOver.unity
+    guid: ff94bf94f9ecccd408f7ede379e09204
   - enabled: 1
-    path: Assets/Scenes/Win Game.unity
-    guid: 2bf58806ed74e43498c2cf16268fdde7
+    path: Assets/Scenes/WinScreen.unity
+    guid: a4559c13f52fda149b416a3d8c4e6862
   m_configObjects: {}
